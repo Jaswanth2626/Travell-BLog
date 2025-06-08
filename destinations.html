@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Popular Destinations</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.png" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo">Travel<span>Blog</span></a>
+    <ul class="navbar">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- Booking Form Section -->
+  <section style="padding: 30px; background: #111; color: #fff; text-align: center;">
+    <h2>Book Your Adventure</h2>
+    <form id="bookingForm" style="max-width: 500px; margin: auto;">
+      <input type="text" placeholder="Your Name" required style="padding: 10px; width: 100%; margin: 10px 0;" />
+      <input type="email" placeholder="Email Address" required style="padding: 10px; width: 100%; margin: 10px 0;" />
+      <input type="tel" placeholder="Phone Number" required style="padding: 10px; width: 100%; margin: 10px 0;" />
+      <input type="text" placeholder="Destination" required style="padding: 10px; width: 100%; margin: 10px 0;" />
+      <button type="submit" class="btn" style="padding: 10px 20px; margin-top: 10px;">Final Book Now</button>
+    </form>
+  </section>
+
+  <!-- Booking Details Display -->
+  <div id="bookingDetailsSection" style="display: none; padding: 20px; text-align: center;">
+    <h3>Your Booking Details</h3>
+    <div id="bookingDetails"></div>
+  </div>
+
+  <!-- Destination Section Start -->
+  <section class="destination" id="destinations">
+    <div class="center-text">
+      <h2>Find Popular Destination</h2>
+    </div>
+    <div class="destination-content">
+      <div class="box">
+        <img src="images/img1.jpg" alt="Mountain Hiking Tour">
+        <h4>Mountain Hiking Tour</h4>
+        <h6>Mountain Hiking Tour</h6>
+        <div class="row">
+          <p><b>$89</b>/person</p>
+        </div>
+      </div>
+
+      <div class="box">
+        <img src="images/img6.jpg" alt="Curug Hiji Camp">
+        <h4>Curug Hiji Camp</h4>
+        <h6>Curug Hiji Camp</h6>
+        <div class="row">
+          <p><b>$142</b>/person</p>
+        </div>
+      </div>
+
+      <div class="box">
+        <img src="images/img7.jpg" alt="Bintang Hill">
+        <h4>Bintang Hill</h4>
+        <h6>Bintang Hill</h6>
+        <div class="row">
+          <p><b>$99</b>/person</p>
+        </div>
+      </div>
+
+      <div class="box">
+        <img src="images/img8.jpg" alt="Statue of Liberty">
+        <h4>Statue of Liberty</h4>
+        <h6>Statue of Liberty</h6>
+        <div class="row">
+          <p><b>$99</b>/person</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Destination Section End -->
+
+  <!-- JavaScript -->
+  <script>
+    const bookingForm = document.getElementById("bookingForm");
+    const bookingDetailsSection = document.getElementById("bookingDetailsSection");
+    const bookingDetails = document.getElementById("bookingDetails");
+
+    let bookings = [];
+
+    bookingForm.onsubmit = function (e) {
+      e.preventDefault();
+
+      const name = bookingForm.elements[0].value;
+      const email = bookingForm.elements[1].value;
+      const phone = bookingForm.elements[2].value;
+      const destination = bookingForm.elements[3].value;
+
+      const editingId = bookingForm.getAttribute('data-editing-id');
+
+      if (editingId) {
+        // Edit existing booking
+        const booking = bookings.find(b => b.id == editingId);
+        if (booking) {
+          booking.name = name;
+          booking.email = email;
+          booking.phone = phone;
+          booking.destination = destination;
+        }
+        bookingForm.removeAttribute('data-editing-id');
+      } else {
+        // Add new booking
+        bookings.push({
+          id: Date.now(),
+          name,
+          email,
+          phone,
+          destination
+        });
+      }
+
+      displayAllBookings();
+      bookingForm.reset();
+    };
+
+    function displayAllBookings() {
+      bookingDetails.innerHTML = `
+        <table style="margin: auto; width: 90%; max-width: 800px; border-collapse: collapse; color: #fff;">
+          <thead>
+            <tr style="background: #333;">
+              <th style="padding: 10px; border: 1px solid #555;">Name</th>
+              <th style="padding: 10px; border: 1px solid #555;">Email</th>
+              <th style="padding: 10px; border: 1px solid #555;">Phone</th>
+              <th style="padding: 10px; border: 1px solid #555;">Destination</th>
+              <th style="padding: 10px; border: 1px solid #555;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${bookings.map(booking => `
+              <tr style="text-align: center; background-color: #222;">
+                <td style="padding: 10px; border: 1px solid #555;">${booking.name}</td>
+                <td style="padding: 10px; border: 1px solid #555;">${booking.email}</td>
+                <td style="padding: 10px; border: 1px solid #555;">${booking.phone}</td>
+                <td style="padding: 10px; border: 1px solid #555;">${booking.destination}</td>
+                <td style="padding: 10px; border: 1px solid #555;">
+                  <button class="btn" onclick="editBooking(${booking.id})" style="margin-right: 5px;">Edit</button>
+                  <button class="btn" onclick="deleteBooking(${booking.id})" style="background:red;">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      bookingDetailsSection.style.display = bookings.length ? "block" : "none";
+    }
+
+    window.editBooking = function (id) {
+      const booking = bookings.find(b => b.id === id);
+      if (booking) {
+        bookingForm.elements[0].value = booking.name;
+        bookingForm.elements[1].value = booking.email;
+        bookingForm.elements[2].value = booking.phone;
+        bookingForm.elements[3].value = booking.destination;
+        bookingForm.setAttribute('data-editing-id', id);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    window.deleteBooking = function (id) {
+      bookings = bookings.filter(b => b.id !== id);
+      displayAllBookings();
+    }
+  </script>
+
+</body>
+
+</html>

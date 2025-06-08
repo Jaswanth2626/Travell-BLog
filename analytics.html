@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Blog Analytics</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.png" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px 10%;
+      background-color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #FF914D;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #FF914D;
+    }
+
+    .center-text {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .center-text h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .center-text h3 {
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: #aaa;
+    }
+
+    .chart-container {
+      width: 80%;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #111;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(255, 145, 77, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo">Travel<span>Blog</span></a>
+    <ul class="navbar">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- Analytics Section Start -->
+  <section class="Analytics" id="Analytics">
+    <div class="center-text">
+      <h2>Travel Blog Analytics</h2>
+      <h3>Happy to share my experience in Travel Blog</h3>
+    </div>
+    <div class="chart-container">
+      <canvas id="vlogChart" width="400" height="200"></canvas>
+    </div>
+  </section>
+  <!-- Analytics Section End -->
+
+  <!-- Chart Script -->
+  <script>
+    const ctx = document.getElementById('vlogChart').getContext('2d');
+    const vlogChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Paris', 'Tokyo', 'New York', 'Sydney', 'Dubai'],
+        datasets: [{
+          label: 'Number of Vlogs',
+          data: [12, 19, 7, 10, 15],
+          backgroundColor: 'rgba(255, 145, 77, 0.7)',
+          borderColor: 'rgba(255, 145, 77, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Vlogs',
+              color: '#fff',
+              font: {
+                size: 14,
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              color: '#fff'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Places',
+              color: '#fff',
+              font: {
+                size: 14,
+                weight: 'bold'
+              }
+            },
+            ticks: {
+              color: '#fff'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#fff'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
